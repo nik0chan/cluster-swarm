@@ -1,0 +1,26 @@
+#!/bin/true
+#	Set Deployment type. Roadmap: swarm, local, k8s, aws...
+#	TO BE Executed by XXpm. Supports commands askVar, runMe, parseTemplate, addNet ...
+# 
+# INFO Title: Consul Cluster
+# INFO Name: consul-cluster
+# INFO Version: 0.1
+# INFO NiceName: Consul Cluster
+# INFO Stack-URL: https://github.com/kpeiruza/dspm/stacks/consul
+# INFO Homepage: https://consul.io/
+# INFO Maintainer: kenneth@floss.cat
+# INFO Description: Consul
+# INFO Provides-Network: consul
+# INFO Provides: consul
+#
+# set the deployment type, default = swarm. local|docker / swarm 
+setDeployment swarm
+#askVar "INFLUXDB_ADMIN_USER" "admin" "Admin user for InfluxDB"
+#askVar "INFLUXDB_ADMIN_PASSWD" "admin" "Admin password for InfluxDB"
+askVar	"FQDN"	"FQDN for HTTP(s) access to this stack" "consul.${SWARM_DOMAIN}"
+askVar	"CONSUL_DC"	"Consul Datacenter name (subdomain)" "dc1"
+askVar	"CONSUL_TOKEN"	"Consul security token (run docker run -ti consul keygen)" 
+#makeDir	${REMOTE_MOUNT}/${STACK_NAME}/
+#parseTemplate "telegraf.conf" "/tmp/tele.conf" 
+#addNet	local/global	name	"list-of-labels" "extra parameters"
+addNet	global	consul	"dopaka.required.consul-cluster=true;dopaka.owner=consul-cluster"

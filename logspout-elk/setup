@@ -1,0 +1,39 @@
+#!/bin/true 
+#	Shebang just to avoid mistakes
+#
+#	This file is meant to be parsed by dspm to provide package Info at least until a central index is built
+#
+#	It is executed by stackSetup() and supports commands askVar, runMe and parseTemplate so far.
+#	runMe "servers" "oneliner commands"
+#		servers in [local, all, managers, workers, filter={{ .Your.Filter.As.Used.In.(docker node ls --filter=) }}]
+#	parseTemplate "tplFile" "dstFile" "[servers]"
+#		defaults to local
+#	askVar "VARNAME" "Question to show" "default-value"
+#		askVar MYPASS "Enter your password, default passwd" "passwd"
+#		askVar MYPASS "Enter your password, default random" "`pwgen 16`"
+#
+#
+# INFO Title: Logspout + ELK (single-instance)
+# INFO Name: logspout-elk
+# INFO URL: https://github.com/kpeiruza/dspm/stacks/logspout-elk
+# INFO Maintainer: kenneth@floss.cat
+# INFO Description: Elasticsearch + Logstash + Kibana + Logspout collector in global mode
+# INFO Description: This stack collects all logs from your containers and inserts them into ES. You can browse them with Kibana
+# INFO Required-stacks: frontend
+# INFO Suggests: metrics
+# INFO Required-networks: frontend
+# INFO Provides: logs
+#
+#	Single-node ES, just a remote volume required
+mkdir -p ${REMOTE_MOUNT}/${STACK_NAME}/elasticsearch/data 2>/dev/null
+#	Give perm to create nodes
+chmod 1777 ${REMOTE_MOUNT}/${STACK_NAME}/elasticsearch/data
+mkdir -p  ${REMOTE_MOUNT}/${STACK_NAME}/logstash/config 2>/dev/null
+
+cp ${STACKS}/available/logspout-elk/files/logstash.conf ${REMOTE_MOUNT}/${STACK_NAME}/logstash/config/
+askVar "DEPLOY_MODE" "Where should ElasticSearch be deployed? [all,managers,workers,filter=whatever] " "all"
+askVar "LOGS_URL" "What hostname will be used to access Kibana? " "kibana.${SWARM_DOMAIN}"
+#	Modify Kernel Settings on affected nodes
+runMe "${DEPLOY_MODE}" "echo 'vm.max_map_count=262144' >> /etc/sysctl.conf ; sysctl -p"
+
+#createConstraints "elasticsearch" "${DEPLOY_MODE}"

@@ -1,0 +1,40 @@
+#!/bin/true 
+#	Shebang just to avoid mistakes
+#
+#	This file is meant to be parsed by dspm to provide package Info at least until a central index is built
+#
+#	It is executed by stackSetup() and supports commands askVar, runMe and parseTemplate so far.
+#	runMe "servers" "oneliner commands"
+#		servers in [local, all, managers, workers, filter={{ .Your.Filter.As.Used.In.(docker node ls --filter=) }}]
+#	parseTemplate "tplFile" "dstFile" "[servers]"
+#		defaults to local
+#	askVar "VARNAME" "Question to show" "default-value"
+#		askVar MYPASS "Enter your password, default passwd" "passwd"
+#		askVar MYPASS "Enter your password, default random" "`pwgen 16`"
+#
+#
+# INFO Title: graylog monitoring
+# INFO Name: graylog
+# INFO NiceName: graylog
+# INFO URL: https://github.com/kpeiruza/dspm/stacks/graylog
+# INFO Project-URL: https://graylog.io/
+# INFO Maintainer: kenneth@floss.cat
+# INFO Description: graylog monitoring
+# INFO Description: This stack contains graylog
+# INFO Required-stacks: frontend
+# INFO Suggests: logs
+# INFO Required-networks: frontend
+# INFO Provides: monitoring
+#
+askVar	"FQDN" "Default URL to access" "graylog.${SWARM_DOMAIN}"
+#askVar "INFLUXDB_ADMIN_USER" "admin" "Admin user for InfluxDB"
+#askVar "INFLUXDB_ADMIN_PASSWD" "admin" "Admin password for InfluxDB"
+#askVar "TRAEFIK_FQDN" "grafana.${SWARM_DOMAIN}" "FQDN for HTTP(s) access to this stack"
+#parseTemplate "telegraf.conf" "/tmp/tele.conf" 
+#	RUN ACTIONS , replace this runMe for a nice makeDir func
+mkdir -p ${REMOTE_MOUNT}/${STACK_NAME}/elasticsearch
+chmod 1777 ${REMOTE_MOUNT}/${STACK_NAME}/elasticsearch
+mkdir -p ${REMOTE_MOUNT}/${STACK_NAME}/mongodb
+mkdir -p ${REMOTE_MOUNT}/${STACK_NAME}/graylog
+#	TO BE Executed by XXpm. Supports commands askVar, runMe, parseTemplate, addNet ...
+#addNet	local/global	name	"list-of-labels;with;semicolons" "extra parameters"

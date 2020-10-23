@@ -1,0 +1,85 @@
+version: '3.4'
+services:
+  # Deploy the consul server instances
+  consul:
+    image: consul:1.2.3
+    environment:
+#      CONSUL_LOCAL_CONFIG: "{\"skip_leave_on_interrupt\": true, \"encrypt\": \"${CONSUL_TOKEN}\"}"
+      CONSUL_BIND_INTERFACE: 'eth0'
+    networks:
+      consul:
+        aliases:
+          - consul.server
+    # Start the consul server with the given configuration
+    command: "agent -server -ui -client 0.0.0.0 -data-dir /consul/data -datacenter ${CONSUL_DC} -retry-join consul.server -encrypt ${CONSUL_TOKEN} -bootstrap-expect ${managerNodes}"
+    # Expose port 8500 so we can access the UI and allow connections across datacenters.
+    ports:
+      - target: 8500
+        published: 8500
+        mode: host
+    # Mount the configuration and data volumes to the container.
+    volumes:
+       - consul-cluster:/consul/data
+    # Deploy the consul server on all servers which are managers.
+    # Use DNS Round Robin instead VIP for discovery. This ensures we get all running
+    # consul server instances when querying consul.server
+    deploy:
+      mode: global
+      endpoint_mode: dnsrr
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+        delay: 30s
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 120s
+      placement:
+        constraints:
+          - node.role == manager
+#  # Deploy the consul agent instances
+#  
+#
+#  agent:
+#    image: consul:latest
+#    environment:
+#      DC: 'swarm'
+#      EncryptionToken: 'hM/8cUfYdPV4hdkQcBQikA=='
+#      ManagerClusterSize: 3
+#    networks:
+#      consul:
+#        aliases:
+#          - consul.server
+#     # Start the consul agent with the given configuration          
+#    command: "consul agent -config-file /consul/config/config.json"
+#    ports:
+#      - target: 8500
+#        published: 8500
+#        mode: host
+#    # Mount the configuration and data volumes to the container.
+#    volumes:
+#      - /srv/docker/data/consul/config:/consul/config
+#      - /srv/local/data/consul/data:/consul/data
+#    # Deploy the consul agent on all servers which are workers.
+#    # Use DNS Round Robin instead VIP for discovery.  
+#    deploy:
+#      mode: global
+#      endpoint_mode: dnsrr
+#      update_config:
+#        parallelism: 1
+#        failure_action: rollback
+#        delay: 30s
+#      restart_policy:
+#        condition: any
+#        delay: 5s
+#        window: 120s
+#      placement:
+#        constraints:
+#          - node.role == worker
+#
+volumes:
+  consul-cluster:
+
+networks:
+  consul:
+    external: true

@@ -1,0 +1,70 @@
+# Author: Kenneth Peiruza
+version: '3.4'
+
+services:
+  influxdb:
+    image: library/influxdb:latest
+    command: -config /etc/influxdb/influxdb.conf
+    environment:
+      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER:-admin}
+      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD:-admin}
+    networks:
+      - agents
+      - grafana
+    volumes:
+      - ${REMOTE_MOUNT}/${STACK_NAME}/influxdb/data:/var/lib/influxdb
+      - ${REMOTE_MOUNT}/${STACK_NAME}/influxdb/config:/etc/influxdb/config:ro
+
+    deploy:
+      replicas: 1
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource'
+    volumes:
+      - ${REMOTE_MOUNT}/${STACK_NAME}/grafana/data:/var/lib/grafana/
+    networks:
+      - grafana
+      - proxy
+    depends_on:
+      - influxdb
+    deploy:
+      replicas: 1
+      labels:
+        traefik.port: 3000
+        traefik.frontend.rule: "Host:${TRAEFIK_FQDN}"
+        traefik.docker.network: "proxy"
+
+#   Fancy replacing placement on a static node. Add Net-storage and drop this out
+
+  telegraf:
+    image: kpeiruza/telegraf
+    environment:
+      HOST_PROC: '/rootfs/proc'
+      HOST_SYS: '/rootfs/sys'
+      HOST_ETC: '/rootfs/etc'
+    networks:
+      - agents
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /run:/rootfs/run:ro
+      - /etc:/rootfs/etc:ro
+      - /etc/telegraf/:/etc/telegraf/ 
+    depends_on:
+      - influxdb
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+networks:
+  agents:
+    driver: 'overlay'
+  grafana:
+    driver: 'overlay'
+  proxy:
+    external: true

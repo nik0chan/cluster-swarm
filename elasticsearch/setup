@@ -1,0 +1,24 @@
+#!/bin/true
+#	TO BE Executed by dspm. Supports commands askVar, runMe, parseTemplate
+# 
+# INFO Title: Elasticseach Cluster
+# INFO Name: elasticsearch
+# INFO Version: 0.1
+# INFO NiceName: ElasticSearch Cluster
+# INFO Stack-URL: https://github.com/kpeiruza/dspm/stacks/elasticsearch-cluster
+# INFO Homepage: https://elasti.co
+# INFO Maintainer: kenneth@floss.cat
+# INFO Description: ElasticSearch Opensource in clustered mode. It can be grown/(shrinked?) dynamically.
+# INFO Required-Stacks: frontend 
+# INFO Suggests: metrics registry
+# INFO Required-Networks: frontend
+# INFO Provided-Networks: elasticsearch
+# INFO Provides: elasticsearch
+#
+#askVar "INFLUXDB_ADMIN_USER" "Admin user for InfluxDB" "admin"
+#askVar "INFLUXDB_ADMIN_PASSWD" "Admin password for InfluxDB" "admin"
+#askVar "TRAEFIK_FQDN" "FQDN for HTTP(s) access to this stack" "grafana.${SWARM_DOMAIN}"
+#parseTemplate "telegraf.conf" "/tmp/tele.conf" 
+#	RUN ACTIONS
+askVar "ES_CONSTAINTS" "Placement constraints for Elasticsearch (i.e. node.role == manager or some label matching)" "node.labels.app_role == elasticsearch"
+runMe	local	"docker network create --driver overlay --attachable elasticsearch"

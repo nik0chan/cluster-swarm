@@ -1,0 +1,58 @@
+### BEGIN dsdeploy
+# Provides:          portainer
+# Required-Start:
+# Short-Description: Control pannel for Docker & Docker Swarm
+# Description:       Add a better description here
+# VAR   "FQDN"
+# DEPLOY        "simple", "remote"
+### END dsdeploy
+
+version: '3.4'
+
+services:
+  portainer:
+    image: portainer/portainer
+    command: '-H "tcp://tasks.agent:9001" --tlsskipverify'
+    ports:
+      - ${PUBLIC_PORT}:9000
+    networks:
+      - proxy
+      - portainer_agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /srv/docker/portainer/data:/data
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        traefik.port: 9000
+        traefik.frontend.rule: "Host: portainer.35.228.9.131.nip.io"
+        traefik.docker.network: 'proxy'
+      placement:
+        constraints: [node.role == manager]
+    
+  agent:
+    image: portainer/agent
+    environment:
+      AGENT_CLUSTER_ADDR: tasks.agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - target: 9001
+        published: 9001
+        protocol: tcp
+        mode: host
+    networks:
+      - portainer_agent
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+
+
+
+networks:
+  portainer_agent:
+    external: true
+  proxy:
+    external: true

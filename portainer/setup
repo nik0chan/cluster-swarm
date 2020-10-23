@@ -1,0 +1,39 @@
+#!/bin/true 
+#	Shebang just to avoid mistakes
+#
+#	This file is meant to be parsed by dspm to provide package Info at least until a central index is built
+#
+#	It is executed by stackSetup() and supports commands askVar, runMe and parseTemplate so far.
+#	runMe "servers" "oneliner commands"
+#		servers in [local, all, managers, workers, filter={{ .Your.Filter.As.Used.In.(docker node ls --filter=) }}]
+#	parseTemplate "tplFile" "dstFile" "[servers]"
+#		defaults to local
+#	askVar "VARNAME" "Question to show" "default-value"
+#		askVar MYPASS "Enter your password, default passwd" "passwd"
+#		askVar MYPASS "Enter your password, default random" "`pwgen 16`"
+#
+#
+# INFO Title: Portainer Control Panel for Docker Swarm clusters
+# INFO Name: portainer
+# INFO NiceName: Portainer
+# INFO URL: https://github.com/kpeiruza/dspm/stacks/portainer
+# INFO Project-URL: https://portainer.io/
+# INFO Maintainer: kenneth@floss.cat
+# INFO Description: Portainer is probably the most widely deployed opensource Docker manager.
+# INFO Description: This stack contains Portainer in cluster mode, with Portainer on every Manager and Agents on Workers.
+# INFO Required-stacks: frontend consul
+# INFO Suggests: metrics logs registry
+# INFO Required-networks: frontend
+# INFO Provides: panel
+#
+askVar	"PUBLIC_PORT" "Default port to use for accessing Portainer without a frontal proxy" "9000"
+askVar	"FQDN" "Default URL to access" "portainer.${SWARM_DOMAIN}"
+#askVar "INFLUXDB_ADMIN_USER" "admin" "Admin user for InfluxDB"
+#askVar "INFLUXDB_ADMIN_PASSWD" "admin" "Admin password for InfluxDB"
+#askVar "TRAEFIK_FQDN" "grafana.${SWARM_DOMAIN}" "FQDN for HTTP(s) access to this stack"
+#parseTemplate "telegraf.conf" "/tmp/tele.conf" 
+#	RUN ACTIONS , replace this runMe for a nice makeDir func
+runMe	local	"mkdir -p ${REMOTE_MOUNT}/${STACK_NAME}/portainer/data"
+#	TO BE Executed by XXpm. Supports commands askVar, runMe, parseTemplate, addNet ...
+#addNet	local/global	name	"list-of-labels;with;semicolons" "extra parameters"
+addNet	global	portainer_agent	"dopaka.created-by.portainer-cluster=true"
