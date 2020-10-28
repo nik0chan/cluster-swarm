@@ -1,306 +1,299 @@
-    1  curl https://get.docker.com|bash 
-    2  docker swarm init
-    3  clear
-    4  docker node ps 
-    5  docker node ls 
-    6  apt install -y nfs-client && mkdir /srv/docker && echo '10.164.0.2:/srv/nfs   /srv/docker   nfs   defaults,_netdev,soft,intr   0    0' >> /etc/fstab
-    7  mount -a 
-    8  df -h 
-    9  cd /srv/docker/
-   10  mkdir stacks 
-   11  mkdir traefik 
-   12  cd stack 
-   13  cd stacks/
-   14  vi stack.yaml
-   15  cd ..
-   16  docker network create --drive overlay proxy 
-   17  docker network create --driver overlay proxy 
-   18  ls 
-   19  mv traefik/ stacks/
-   20   docker stack deploy -c stacks/stack.yaml 
-   21   docker stack deploy -c stacks/stack.yaml traefik 
-   22  mv stacks/stack.yaml stacks/traefik/
-   23  mkdir stacks/portainer 
-   24  nano stacks/portainer/stack.yaml 
-   25  apt -get install -y git 
-   26  apt-get install git -y 
-   27  cd /tmp 
-   28  git clone https://github.com/kpeiruza/docker-stacks
-   29  ls -l 
-   30  cd docker-stacks/
-   31  ls -l 
-   32  mv portainer /srv/docker/stacks/
-   33  cd /srv/docker/stacks/
-   34  ls -l 
-   35  ls portainer/
-   36   docker stack deploy -c portainer/stack.yaml portainer
-   37  ls -l 
-   38  cd portainer/
-   39  ls -l 
+    1  docker ps 
+    2  docker node ls 
+    3  docker node 
+    4  docker node promote 2h8dk428fstqhmsiy8wrc39sh
+    5  docker node promote tv2y29xkfs4wlrvheivnh9wnd
+    6  docker service -ls 
+    7  docker service ls 
+    8  docker service ps portainer_portainer --no-trunc
+    9  cd /tmp 
+   10  ls -l 
+   11  git clone https://github.com/kpeiruza/docker-stacks.git
+   12  ls -l 
+   13  cddo
+   14  cd docker-stacks/
+   15  ls -l 
+   16  cd logspout-elk/
+   17  ls -l 
+   18  cat stack.yaml 
+   19  ls -l 
+   20  ls -l 
+   21  docker stack deploy -c stack.yaml logspout-elk
+   22  docker service ls 
+   23  docker service ls 
+   24  docker service ls 
+   25  docker service ls 
+   26  docker service ls 
+   27  docker service ls 
+   28  docker service ls 
+   29  docker service ls 
+   30  docker service ls 
+   31  docker service ls 
+   32  docker service ls 
+   33  docker service ps logspout-elk 
+   34  docker service ps logspout-elk_elasticsearch 
+   35  docker service ps 
+   36  docker service ls 
+   37  docker service ps logspout-elk_elasticsearch --no-trunc
+   38  ls -l 
+   39  nano stack.yaml 
    40  nano stack.yaml 
-   41  ifconfig 
+   41  cd ..
    42  cd ..
-   43  mkdir comptador 
-   44  ls -l 
-   45  cd ..
+   43  git clone https://github.com/kpeiruza/docker-stacks.git
+   44  rm -rf docker-stacks
+   45  git clone https://github.com/kpeiruza/docker-stacks.git
    46  ls -l 
-   47  cd /
-   48  cd /tmp
-   49  ls -l 
-   50  cd docker-stacks/
-   51  ls -l 
-   52  mv consul-cluster /srv/docker/stacks/
-   53  mv elasticsearch/ /srv/docker/stacks/ 
-   54  mv graylog /srv/docker/stacks/ 
-   55  mv logspout-elk/ /srv/docker/stacks/
-   56   mv redis/ /srv/docker/stacks/
-   57  ll 
-   58  ls -l 
-   59  mv tig-stack/ /srv/docker/stacks/ 
-   60  ls -l 
-   61  cd /srv/docker/
-   62  ls -l 
-   63  cd stacks/
-   64  sl -l 
-   65  ls -l 
-   66  docker services
-   67  docker services ls 
-   68  docker service ls 
-   69  systemctl status firewalld 
-   70  cd portainer/
+   47  cd docker-stacks/
+   48  ls -l 
+   49  cd elasticsearch/
+   50  ls -l 
+   51  cat setup 
+   52  ls -l 
+   53  more stack.yaml 
+   54  ls -l
+   55  sl -l 
+   56  cd ..
+   57  ls -l 
+   58  cd logspout-elk/
+   59  ls -l 
+   60  cd stack.yaml 
+   61  ls -l 
+   62  cd stack.yaml 
+   63  more README.md 
+   64  ls -l 
+   65  cat stack.yaml 
+   66  cat /srv/docker/deploy-services.sh 
+   67  docker network create --driver overlay logstash 
+   68  docker network create --driver overlay elasticsearch 
+   69  ls -l 
+   70  more README.md 
    71  ls -l 
-   72  nano stack.yaml 
-   73  mkdir /srv/docker/portainer
-   74  nano stack.yaml 
-   75  ifconfig 
-   76  ls -l 
-   77  nano stack.yaml 
-   78  history | grep docker 
-   79  docker stack deploy -c stack.yaml 
-   80  docker stack deploy -c stack.yaml  portainer
-   81  cat stack.yaml  
-   82  docker network create portainer_agent 
-   83  docker stack deploy -c stack.yaml  portainer
-   84  lclear 
-   85  clear
-   86  docker stack deploy -c stack.yaml  portainer
-   87  nano stack.yaml 
-   88  nano stack.yaml 
-   89  history 
-   90  docker network ls 
-   91  docker network rm 30467c90f0e6
-   92  docker network create portainer_agent -d overlay 
-   93  docker stack deploy -c stack.yaml  portainer
-   94  vi stack.yaml  
-   95  ifconfig
-   96  vi stack.yaml  
-   97  docker stack deploy -c stack.yaml  portainer
-   98  vi stack.yaml  
-   99  docker stack deploy -c stack.yaml  portainer
-  100  cd ..
-  101  cd traefik/
+   72  cat stack.yaml 
+   73  REMOTE_MOUNT=/srv/docker 
+   74  export 
+   75  export REMOTE_MOUNT=/srv/docker 
+   76  export 
+   77  export  | grep MOUNT
+   78  docker stack deploy -c stack.yaml logspout-elk
+   79  history | grep docker
+   80  docker service ps logspout-elk_elasticsearch --no-trunc
+   81  mkdir -p /srv/docker/elasticsearch/data
+   82  docker stack deploy -c stack.yaml logspout-elk
+   83  docker service ps logspout-elk_elasticsearch --no-trunc
+   84  docker service ps logspout-elk_elasticsearch --no-trunc
+   85  dockes services ps 
+   86  dockes services ps 
+   87  dockes service ps 
+   88  docker service ps 
+   89  docker service 
+   90  docker service  ls 
+   91  docker service ps logspout-elk_elasticsearch --no-trunc
+   92  docker service  ls 
+   93  docker service ps logspout-elk_elasticsearch --no-trunc
+   94  docker service  ls 
+   95  docker service ps logspout-elk_logstash --no-trunc
+   96  mkdir -p /srv/docker/logstash/
+   97  ls -l 
+   98  cd file
+   99  ls -l 
+  100  cat files
+  101  cd files 
   102  ls -l 
-  103  vi stack.yaml 
-  104  docker service ps traefik_traefik
-  105  docker node 
-  106  docker node ls 
-  107  docker node promode 
-  108  docker node promode 0uoqxpcvbzqiec9nv3mqinz9m ruol7g1qgrptf6m3u9wcx88x4
-  109  docker node promote 0uoqxpcvbzqiec9nv3mqinz9m ruol7g1qgrptf6m3u9wcx88x4
-  110  docker node ls 
-  111  docker node ls 
-  112  docker node ls 
-  113  docker node ls 
-  114  docker node ls 
-  115  docker node promote ruol7g1qgrptf6m3u9wcx88x4
-  116  docker node ls 
-  117  vi stack.yaml 
-  118  vim stack.yaml 
-  119  docker service ls 
-  120  docker service ps portainer_portainer 
-  121  docker service ps portainer_portainer --no-truck
-  122  docker service ps portainer_portainer --no-trunk
-  123  docker service ps portainer_portainer --notrunk
-  124  docker service ps portainer_portainer -no-trunk
-  125  docker service ps portainer_portainer --no-trunk
-  126  docker service ps portainer_portainer -h
-  127  docker service ps portainer_portainer --no-trunc
-  128  ls -l 
-  129  nano stack.yaml 
-  130  cd ..
-  131  mkdir -p /srv/docker/portainer/data 
-  132  cd 
-  133  docker service ps portainer_portainer --no-trunc
-  134  mount 
-  135  df -h 
-  136  cd /srv/docker/
+  103  cp logstash.conf /srv/docker/logstash/config 
+  104  docker service ls 
+  105  docker stack deploy -c stack.yaml logspout-elk
+  106  cd ..
+  107  docker stack deploy -c stack.yaml logspout-elk
+  108  docker stack services logspout-elk
+  109  docker service ps logspout-elk_logstash --no-trunc
+  110  rm /srv/docker/logstash/config 
+  111  mkdir /srv/docker/logstash/config 
+  112  cp files/logstash.conf /srv/docker/logstash/config/
+  113  docker stack deploy -c stack.yaml logspout-elk
+  114  docker service ps logspout-elk_logstash --no-trunc
+  115  docker stack services logspout-elk
+  116  docker stack services logspout-elk
+  117  docker stack services logspout-elk
+  118  netstat -tlpn 
+  119  docker stack services logspout-elk
+  120  more stack.yaml 
+  121  env 
+  122  cd ..
+  123  ls -l 
+  124  cd /srv/docker/traefik/
+  125  sl -l 
+  126  ls -l 
+  127  vim stack.yaml 
+  128  docker stack deploy -c stack.yaml traefik
+  129  cocker service ls 
+  130  docker service ls 
+  131  cat stack.yaml 
+  132  cd ..
+  133  ls -l
+  134  cd /tmp/
+  135  ls -l 
+  136  cd docker-stacks/
   137  ls -l 
-  138  cd portainer/
+  138  cd logspout-elk/
   139  ls -l 
-  140  cd data
-  141  ls -l 
-  142  cd ..
-  143  cd ..
-  144  cd /
-  145  ls -l 
-  146  cd /srv/
-  147  ls -l 
-  148  cd docker/
-  149  ls -l 
-  150  cd stacks/
-  151  ls -l 
-  152  cd portainer/
-  153  cat stack.yaml 
-  154      volumes:
-  155        - /var/run/docker.sock:/var/run/docker.sock
-  156        - /srv/docker/portainer/data:/data
-  157      deploy:
-  158        mode: replicated
-  159        replicas: 1
-  160        labels:
-  161          traefik.port: 9000
-  162          traefik.frontend.rule: "Host: portainer.35.228.9.131.nip.io"
-  163          traefik.docker.network: 'proxy'
-  164        placement:
-  165          constraints: [node.role == manager]
-  166      
-  167    agent:
-  168      image: portainer/agent
-  169      environment:
-  170        AGENT_CLUSTER_ADDR: tasks.agent
-  171      volumes:
-  172        - /var/run/docker.sock:/var/run/docker.sock
-  173      ports:
-  174        - target: 9001
-  175          published: 9001
-  176          protocol: tcp
-  177          mode: host
-  178      networks:
-  179        - portainer_agent
-  180      deploy:
-  181        mode: global
-  182        placement:
-  183          constraints: [node.platform.os == linux]
-  184  networks:
-  185    portainer_agent:
-  186      external: true
-  187    proxy:
-  188      volumes:
-  189        - /var/run/docker.sock:/var/run/docker.sock
-  190        - /srv/docker/portainer/data:/data
-  191      deploy:
-  192        mode: replicated
-  193        replicas: 1
-  194        labels:
-  195          traefik.port: 9000
-  196          traefik.frontend.rule: "Host: portainer.35.228.9.131.nip.io"
-  197          traefik.docker.network: 'proxy'
-  198        placement:
-  199          constraints: [node.role == manager]
-  200      
-  201    agent:
-  202      image: portainer/agent
-  203      environment:
-  204        AGENT_CLUSTER_ADDR: tasks.agent
-  205      volumes:
-  206        - /var/run/docker.sock:/var/run/docker.sock
-  207      ports:
-  208        - target: 9001
-  209          published: 9001
-  210          protocol: tcp
-  211          mode: host
-  212      networks:
-  213        - portainer_agent
-  214      deploy:
-  215        mode: global
-  216        placement:
-  217          constraints: [node.platform.os == linux]
-  218  networks:
-  219    portainer_agent:
-  220      external: true
-  221    proxy:
-  222      external: true
-  223  cler
-  224  vi stack.yaml 
-  225  cd ..
-  226  ls -l 
-  227  cd traefik/
-  228  ls -l 
-  229  vi stack.yaml 
-  230  cd ..
-  231  ls -l 
-  232  cd graylog/
-  233  ls -l 
-  234  nano stack.yaml 
-  235  cd ..
-  236  ls -l 
-  237  mkdir wordpress
-  238  cd wordpress/
-  239  nano stack.yaml 
-  240  history | grep network 
-  241  cd ..
-  242  ls -l 
-  243  cd elasticsearch/
+  140  vim stack.yaml 
+  141  docker stack deploy -c stack.yaml logspout-elk
+  142  docker service ls 
+  143  docker service ls 
+  144  docker service ps logspout-elk_logstash --no-trunc
+  145  docker service ls 
+  146  docker service ps logspout-elasticsearch --no-trunc
+  147  docker service ps logspout-elk_elasticsearch --no-trunc
+  148  docker logs smwxhtke4ryn 
+  149  docker service ls 
+  150  docker service ps logspout-elk_elasticsearch --no-trunc
+  151  cd ..
+  152  ls -l
+  153  cd elasticsearch/
+  154  ls -l 
+  155  cat setup 
+  156  ls -l 
+  157  systemctl nfs-kernel-service
+  158  systemctl status nfs-kernel-service
+  159  systemctl status nfs-kernelservice
+  160  systemctl | grep nfs 
+  161  systemctl | grep nfs 
+  162  systemctl status nfs-kernelservice
+  163  ls -l 
+  164  cat setup 
+  165  cd ..
+  166  ls -l 
+  167  cat README.md 
+  168  ls -l 
+  169  cd logspout-elk/
+  170  ls -l 
+  171  cat setup 
+  172  echo 'vm.max_map_count=262144' >> /etc/sysctl.conf ; sysctl -p
+  173  docker stack deploy -c stack.yaml logspout-elk
+  174  docker services ls 
+  175  docker stack ls 
+  176  docker services ls 
+  177  docker services ps 
+  178  docker service ls  
+  179  docker service ls  
+  180  docker service ls  
+  181  docker service ls  
+  182  docker service ps logspout-elk_elasticsearch --no-trunc
+  183  docker service ps logspout-elk_elasticsearch --no-trunc
+  184  docker service ps logspout-kibana --no-trunc
+  185  docker service ps logspout-elk_kibana --no-trunc
+  186  docker service ps logspout-kibana --no-trunc
+  187  docker service ps logspout-elk_kibana --no-trunc
+  188  docker service ps 
+  189  docker service ps logspout-elk_kibana
+  190  docker logs k3oht8qvh4lr 
+  191  docker logs logspout-elk_kibana.1
+  192  clear
+  193  docker service ls 
+  194  docker service ps logspout-elk_elasticsearch
+  195  docker service ps logspout-elk_kibana --no-trunc
+  196  docker service logs logspout-elk_elasticsearch
+  197  ls -l /usr/share/elasticsearch/data/nodes 
+  198  ls /srv/docker/elasticsearch/data/
+  199  ls -l 
+  200  ls -l  -a 
+  201  ls /srv/docker/elasticsearch/data/ -a 
+  202  ls /srv/docker/elasticsearch/data/ -al 
+  203  docker ps 
+  204  chmod 777 /srv/docker/elasticsearch/data/ 
+  205  ls /srv/docker/elasticsearch/data/ -la
+  206  chown 1000:root /srv/docker/elasticsearch/data -R 
+  207  chmod 750 /srv/docker/elasticsearch/data/ 
+  208  docker service logs logspout-elk_elasticsearch
+  209  docker service logs logspout-elk_elasticsearch
+  210  docker service logs logspout-elk_elasticsearch
+  211  docker service logs logspout-elk_elasticsearch
+  212  docker service logs logspout-elk_elasticsearch
+  213  docker service logs logspout-elk_elasticsearch
+  214  docker service logs logspout-elk_elasticsearch
+  215  docker service logs logspout-elk_elasticsearch
+  216  docker service logs -f 
+  217  docker service logs logspout-elk_elasticsearch -f 
+  218  rm -rf  /srv/docker/elasticsearch/data/nodes/ 
+  219  docker service logs logspout-elk_elasticsearch -f 
+  220  docker stack rm 
+  221  docker stack 
+  222  docker stack ls 
+  223  docker stack rm logspout-elk 
+  224  ls -l 
+  225  docker stack deploy -c stack.yaml logspout-elk
+  226  docker stack ls 
+  227  ls /srv/docker/elasticsearch/data/nodes/0/node.lock 
+  228  head -40 stack.yaml 
+  229  docker service logs logspout-elk_elasticsearch -f 
+  230  mount 
+  231  grep nfs 
+  232  mount  | grep nfs 
+  233  vi /etc/fstab
+  234  nano /etc/fstab
+  235  nano /etc/fstab
+  236  echo "10.172.0.27:/srv/docker/srv/dockernfsdefaults,nfsvers=3,_netdev,soft,intr0 0" >> /etc/fstab 
+  237  ls -l 
+  238  nano /etc/fstab
+  239  cd /srv/docker/
+  240  ls -l 
+  241  cat /etc/exports 
+  242  vi /etc/fstab
+  243  cd /srv/docker/
   244  ls -l 
-  245  cd ..
+  245  cd elasticsearch/
   246  ls -l 
-  247  cd traefik/
+  247  cd data
   248  ls -l 
-  249  cd ..
-  250  git put 
-  251  git pushh 
-  252  git push
-  253  docker services
-  254  docker service ls 
-  255  docker service ls 
-  256  docker service ls 
-  257  docker service ls 
+  249  cd nodes/
+  250  ls -l 
+  251  ls 0/
+  252  ls -l 
+  253  ls -l 
+  254  cd 0/
+  255  cd indices/
+  256  find 
+  257  logs 
   258  docker service ls 
-  259  docker service ls 
-  260  docker service ls 
-  261  docker service ls 
+  259  docker service logs logspout-elk_elasticsearch -f 
+  260  rpcinfo -p  -f
+  261  docker service logs logspout-elk_elasticsearch -f 
   262  docker service ls 
-  263  docker service ls 
-  264  docker service ls 
+  263  docker service logs logspout-elk_logspout 
+  264  docker service logs logspout-elk_logspout  -f 
   265  docker service ls 
-  266  docker service ls 
+  266  docker service logs logspout-elk_logstash  -f 
   267  docker service ls 
-  268  docker service ls 
-  269  docker service ls 
-  270  docker service 
-  271  docker service scale 
-  272  docker service scale wp_wordpress 28 
-  273  docker service scale wp_wordpress  
-  274  docker service scale wp_wordpress=28  
-  275  ls -l 
-  276  cd ..
-  277  ls -l 
-  278  cd ..
-  279  ls -l 
-  280  cd st
-  281  docker service ls 
-  282  history 
-  283  cd /srv
-  284  ls -l 
-  285  cd co
-  286  cd docker/
+  268  docker service logs logspout-elk_logspout  -f 
+  269  docker service rm 
+  270  docker service ls 
+  271  docker service rm logspout-elk_logspout 
+  272  cd 
+  273  cd /srv/docker/elasticsearch/
+  274  ls -l 
+  275  cd ..
+  276  ll 
+  277  cd /tmp/
+  278  ls -l 
+  279  cd docker-stacks/
+  280  ls -l 
+  281  cd logspout-elk/
+  282  ls -l 
+  283  docker stack deploy -c stack.yaml  
+  284  docker stack deploy -c stack.yaml logspout-elk 
+  285  docker service ls 
+  286  cd /tmp/
   287  ls -l 
-  288  cd stacks/
+  288  cd docker-stacks/
   289  ls -l 
-  290  history | grep git 
-  291  cd ..
-  292  git clone https://github.com/nik0chan/cluster-swarm.git
-  293  cd cluster-swarm/
-  294  ls -l 
-  295  ls ../
-  296  rsync 
-  297  apt-get install -y rsync 
-  298  rsync -avz ../stacks/ . 
-  299  ls -l 
-  300  git add 
-  301  git add  . 
-  302  git commit "Subida inicia" 
-  303  git commit -am "Subida inicia" 
-  304  git push 
-  305  history 
-  306  history  > history.txt 
+  290  cd ..
+  291  ls -l 
+  292  cd docker-stacks/
+  293  ls -l 
+  294  pwd
+  295  exit
+  296  apt-get install rsync
+  297  exit
+  298  history 
+  299  history  > /tmp/history.txt
