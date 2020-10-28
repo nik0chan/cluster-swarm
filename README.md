@@ -46,3 +46,7 @@ cp logspout-elk/files/logstash.conf /srv/docker/logstash/config
 chown 1000:root /srv/docker/elasticsearch/data -R
 chmod 750 /srv/docker/elasticsearch/data
 
+Parámetros systemctl
+--------------------
+echo 'vm.max_map_count=262144' >> /etc/sysctl.conf ; sysctl -p
+
