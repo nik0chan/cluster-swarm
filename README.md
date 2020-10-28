@@ -47,6 +47,24 @@ chown 1000:root /srv/docker/elasticsearch/data -R
 chmod 750 /srv/docker/elasticsearch/data
 
 Parámetros systemctl
---------------------
 echo 'vm.max_map_count=262144' >> /etc/sysctl.conf ; sysctl -p
 
+Hay que modificar las IPs públicas para que tengan el nombre del master 
+mirar ejemplos en los stack.yaml
+
+
+Montar Grafana + InfluxDB 
+-------------------------
+
+mkdir -p /srv/docker/monitor/volumes/grafana
+mkdir -p /srv/docker/monitor/volumes/influxdb
+
+chmod 777 /srv/docker/monitor/volumes/grafana
+chmod 777 /srv/docker/monitor/volumes/influxdb 
+
+Montar bien permisos! 
+
+Hay que modificar las IPs públicas para que tengan el nombre del master
+mirar ejemplos en los docker-compose.yml
+docker stack deploy -c docker-compose.yaml monitor
+ 

@@ -1,0 +1,59 @@
+# Based on: https://wmartins.github.io/2017/10/creating-a-monitoring-stack-with-docker-swarm-grafana-influxdb-and-telegraf/
+
+version: '3.7'
+services:
+  grafana:
+    image: grafana/grafana
+    networks:
+     - monitoring
+     - proxy
+    #ports:
+    #  - 3000:3000
+    volumes:
+      - /srv/docker/monitor/volumes/grafana:/var/lib/grafana
+    deploy:
+      labels:
+        traefik.port: 3000
+        traefik.frontend.rule: "Host: grafana.34.65.150.55.nip.io,grafana.34.65.144.134.nip.io,grafana.34.65.87.57.nip.io"
+        traefik.docker.network: proxy
+  
+  influxdb:
+    image: influxdb
+    configs:
+      - source: influxdb
+        target: /etc/influxdb/influxdb.conf
+    volumes:
+      - /srv/docker/monitor/volumes/influxdb:/var/lib/influxdb
+    networks:
+     - monitoring
+    environment:
+      - INFLUXDB_DB=telegraf
+      - INFLUXDB_USER=telegraf
+      - INFLUXDB_ADMIN_ENABLED=true
+
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=password 
+
+  telegraf:
+    image: telegraf
+    hostname: "{{.Node.Hostname}}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    configs:
+      - source: telegraf
+        target: /etc/telegraf/telegraf.conf
+    networks:
+     - monitoring
+    deploy:
+      mode: global
+
+networks:
+  monitoring:
+  proxy: 
+    external: true
+
+configs:
+  telegraf:
+    file: ./telegraf.conf
+  influxdb:
+    file: ./influxdb.conf
