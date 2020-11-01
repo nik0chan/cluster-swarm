@@ -1,8 +1,8 @@
-version: '3.7'
+version: '2.0'
 
 services:
   traefik:
-    image: library/traefik:1.7
+    image: library/traefik:latest
     command: 
       - "--api"
       - "--entrypoints=Name:http Address::80"
