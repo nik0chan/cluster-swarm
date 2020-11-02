@@ -1,16 +1,24 @@
-version: '2.0'
+version: '3.7'
 
 services:
   traefik:
-    image: library/traefik:latest
-    command: 
-      - "--api"
-      - "--entrypoints=Name:http Address::80"
-      - "--entrypoints=Name:https Address::443 TLS"
-      - "--defaultentrypoints=http,https"
-      - "--docker"
-      - "--docker.swarmmode"
-      - "--docker.watch"
+    image: library/traefik
+    command:
+      - '--api=true'
+      - '--api.dashboard=true'
+      - '--api.insecure=true'
+      - '--log.level=DEBUG'
+      - '--accessLog.bufferingSize=0'
+      - '--entryPoints.web.address=:80'
+      - '--entryPoints.websecure.address=:443'
+      - '--providers.providersThrottleDuration=2s'
+      - '--providers.docker=true'
+      - '--providers.docker.watch=true'
+      - '--providers.docker.endpoint=unix:///var/run/docker.sock'
+      - '--providers.docker.swarmMode=true'
+      - '--providers.docker.swarmModeRefreshSeconds=15s'
+      - '--providers.docker.exposedbydefault=false'
+      - '--providers.docker.network=proxy'
     networks:
       - proxy
     volumes:
@@ -20,9 +28,17 @@ services:
       - 443:443
       - 8080:8080
     deploy:
+      placement:
+        constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=proxy'
+        - 'traefik.http.routers.traefik-http.entrypoints=web'
+        - 'traefik.http.services.traefik-http.loadbalancer.server.port=8080'
+        - 'traefik.http.routers.traefik-https.rule=Host(`traefik.replaceme.nip.io`)'
 networks:
   proxy:
     external: true
+
