@@ -1,12 +1,3 @@
-### BEGIN dsdeploy
-# Provides:          portainer
-# Required-Start:
-# Short-Description: Control pannel for Docker & Docker Swarm
-# Description:       Add a better description here
-# VAR   "FQDN"
-# DEPLOY        "simple", "remote"
-### END dsdeploy
-
 version: '3.4'
 
 services:
@@ -25,9 +16,11 @@ services:
       mode: replicated
       replicas: 1
       labels:
-        traefik.port: 9000
-        traefik.frontend.rule: "Host: portainer.replaceme.nip.io"
-        traefik.docker.network: 'proxy'
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=proxy'
+        - 'traefik.http.routers.portainer-http.entrypoints=web'
+        - 'traefik.http.services.portainer-http.loadbalancer.server.port=9000'
+        - 'traefik.http.routers.portainer-https.rule=Host(`portainer.replaceme.nip.io`)'
       placement:
         constraints: [node.role == manager]
     
@@ -56,3 +49,4 @@ networks:
     external: true
   proxy:
     external: true
+
