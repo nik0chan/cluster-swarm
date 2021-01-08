@@ -68,3 +68,12 @@ Hay que modificar las IPs públicas para que tengan el nombre del master
 mirar ejemplos en los docker-compose.yml
 docker stack deploy -c docker-compose.yaml monitor
  
+Montar Elasticsearch + Kibana + Logstage + Logspout 
+
+mkdir -p /srv/docker/elk-data/logstash/config
+mkdir -p /srv/docker/elk-data/elasticsearch/data/nodes
+chown -R 1000 /srv/docker/elk-data/elasticsearch 
+
+cd logspout-elk
+env REMOTE_MOUNT="/srv/docker" STACK_NAME="elk-data" docker stack deploy -c docker-compose.yaml logspout-elk
+
