@@ -77,3 +77,5 @@ chown -R 1000 /srv/docker/elk-data/elasticsearch
 cd logspout-elk
 env REMOTE_MOUNT="/srv/docker" STACK_NAME="elk-data" docker stack deploy -c docker-compose.yaml logspout-elk
 
+.
+
